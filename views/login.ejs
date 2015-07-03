@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <ul>
+    <% for(var i = 0; i < messages.length; ++i){ %>
+        <li><%= messages[i] %></li>
+    <% } %>
+    </ul>
+    <form action="/login" method="post">
+        <label>Email</label>
+        <input type="email" name="email">
+        <label>Password</label>
+        <input type="password" name="password">
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

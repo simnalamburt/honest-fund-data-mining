@@ -4,15 +4,17 @@
     <title>Index</title>
 </head>
 <body>
-    <ul>
-        <% for(var i = 0; i < messages.length; ++i){ %>
-            <li><%= messages[i] %></li>
-        <% } %>
-    </ul>
-    <% if(user){ %>
-        <h1>Logged as <%= user.email %></h1>
-    <% }else{ %>
-        <h1>Not Logged in</h1>
+    <% include ./flash %>
+    <% include ./topbar %>
+    <h1>Test</h1>
+    <form action="/" method="post">
+        <label>Contact</label>
+        <input id="contact" type="text" name="contact">
+        <button type="submit">Contact</button>
+    </form>
+    <% for(var i = 0; i < 10; ++i){ %>
+    <p id="p<%=i%>">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     <% } %>
+    <% include ./script %>
 </body>
 </html>

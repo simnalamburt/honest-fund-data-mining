@@ -8,6 +8,7 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session');
 var sassMiddleware = require('node-sass-middleware');
+var useragent = require('express-useragent');
 
 // internal modules
 var Unprocessed = require('./models/unprocessed.js');
@@ -43,23 +44,61 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
+app.post('/data', function(req, res){
+    Unprocessed.findById(req.cookies['up._id'], function(err, up){
+        if(err){
+            console.log('up: findById query error');
+            return res.end();
+        }
+        if(!up){
+            console.log('up: base data not found');
+            return res.end();
+        }
+        up.location = req.body.location;
+        up.timestamp_exit = req.body.timestamp_exit;
+        up.keystroke = req.body.keystroke;
+        up.scroll = req.body.scroll;
+        up.highlight = req.body.highlight;
+        up.click = req.body.click;
+        up.window = req.body.window;
+        up.monitor = req.body.monitor;
+        up.contact = req.body.contact;
+        up.save(function(err){
+            if(err){
+                console.log(err);
+                console.log('up: save query error');
+                return res.end();
+            }
+            console.log('up saved: ' + JSON.stringify(up));
+            res.end();
+        });
+    });
+});
 app.use(function(req, res, next){
     var up = new Unprocessed();
 
     up.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     up.url = req.url;
     up.timestamp = Date.now();
+    up.referer = req.headers.referer;
+    up.user_agent = req.headers['user-agent'];
+
+    var ua = useragent.parse(req.headers['user-agent']);
+    up.browser = ua.browser;
+    up.os = ua.os;
+    up.platform = ua.platform;
 
     if(req.user){
         up.email = req.user.email;
     }
 
+    res.clearCookie('up._id');
     up.save(function(err){
         if(err){
             console.log('up: save query error');
             return next(err);
         }
-        console.log('up: ' + JSON.stringify(up));
+        res.cookie('up._id', up._id);
         next(null);
     });
 });

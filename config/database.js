@@ -1,4 +1,5 @@
-var URL = 'mongodb://localhost/myapp'
+var secret = require('./secret.js');
+var URL = secret.dbUrl;
 
 module.exports = function(mongoose){
     mongoose.connect(URL);

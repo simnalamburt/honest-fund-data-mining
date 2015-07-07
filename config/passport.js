@@ -26,7 +26,7 @@ module.exports = function(passport){
                 console.log('local-register: user already exists ' + email);
                 return done(null, false, { message: 'Email already exists: ' + email });
             }
-            var user = new User({ email: email, password: password });
+            user = new User({ email: email, password: password });
             user.save(function(err){
                 if(err){
                     console.error('local-register: save query error');

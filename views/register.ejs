@@ -4,11 +4,8 @@
     <title>Register</title>
 </head>
 <body>
-    <ul>
-    <% for(var i = 0; i < messages.length; ++i){ %>
-        <li><%= messages[i] %></li>
-    <% } %>
-    </ul>
+    <% include ./flash %>
+    <% include ./topbar %>
     <form action="/register" method="post">
         <label>Email</label>
         <input type="email" name="email">
@@ -16,5 +13,6 @@
         <input type="password" name="password">
         <button type="submit">Register</button>
     </form>
+    <% include ./script %>
 </body>
 </html>

@@ -11,7 +11,10 @@ router.get('/', function(req, res){
 });
 
 router.get('/login', function(req, res){
-    res.render('login', { messages: req.flash('error') });
+    res.render('login', {
+        messages: req.flash('error'),
+        user: req.user
+    });
 });
 
 router.post('/login', passport.authenticate('local-login', {
@@ -22,7 +25,10 @@ router.post('/login', passport.authenticate('local-login', {
 }));
 
 router.get('/register', function(req, res){
-    res.render('register', { messages: req.flash('error') });
+    res.render('register', {
+        messages: req.flash('error'),
+        user: req.user
+    });
 });
 
 router.post('/register', passport.authenticate('local-register', {
@@ -31,5 +37,10 @@ router.post('/register', passport.authenticate('local-register', {
     successFlash: true,
     failureFlash: true
 }));
+
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
 
 module.exports = router;

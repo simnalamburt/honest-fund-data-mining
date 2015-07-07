@@ -1,0 +1,8 @@
+<% if(user){ %>
+<h1>Logged as <%= user.email %></h1>
+<a id="btnLogout" href="/logout">Logout</a>
+<% }else{ %>
+<h1>Not Logged in</h1>
+<a id="btnLogin" href="/login">Login</a>
+<a id="btnRegister" href="/register">Register</a>
+<% } %>
